@@ -115,11 +115,11 @@ function main {
   then
     echo aws s3 $COMMAND "$INPUT_SOURCE" "$INPUT_DESTINATION" $INPUT_FLAGS
     aws s3 "$COMMAND" "$INPUT_SOURCE" "$INPUT_DESTINATION" $INPUT_FLAGS | tee output.file
-    echo "s3-result=$(cat output.file)" >> $GITHUB_OUTPUT
+    echo "s3-result=$(cat output.file | awk 'print $1 $2')" >> $GITHUB_OUTPUT
   else
     echo aws s3 $COMMAND "$INPUT_SOURCE" $INPUT_FLAGS
     aws s3 "$COMMAND" "$INPUT_SOURCE" $INPUT_FLAGS | tee output.file
-    echo "s3-result=$(cat output.file)" >> $GITHUB_OUTPUT
+    echo "s3-result=$(cat output.file | awk 'print $1 $2')" >> $GITHUB_OUTPUT
   fi
 }
 
