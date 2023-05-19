@@ -114,10 +114,12 @@ function main {
   if [ "$COMMAND" == "cp" ] || [ "$COMMAND" == "mv" ] || [ "$COMMAND" == "sync" ]
   then
     echo aws s3 $COMMAND "$INPUT_SOURCE" "$INPUT_DESTINATION" $INPUT_FLAGS
-    aws s3 "$COMMAND" "$INPUT_SOURCE" "$INPUT_DESTINATION" $INPUT_FLAGS
+    aws s3 "$COMMAND" "$INPUT_SOURCE" "$INPUT_DESTINATION" $INPUT_FLAGS | tee output.file
+    echo "s3-result=$(cat output.file)" >> $GITHUB_OUTPUT
   else
     echo aws s3 $COMMAND "$INPUT_SOURCE" $INPUT_FLAGS
-    aws s3 "$COMMAND" "$INPUT_SOURCE" $INPUT_FLAGS
+    aws s3 "$COMMAND" "$INPUT_SOURCE" $INPUT_FLAGS | tee output.file
+    echo "s3-result=$(cat output.file)" >> $GITHUB_OUTPUT
   fi
 }
 
