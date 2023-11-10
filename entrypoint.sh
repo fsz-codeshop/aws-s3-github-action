@@ -104,7 +104,7 @@ function validate_source_and_destination {
   fi
 }
 function main {
-  echo "v1.0.0"
+  echo "v1.0.1"
   get_configuration_settings
   get_command
   validate_source_and_destination
@@ -115,11 +115,11 @@ function main {
   then
     echo aws s3 $COMMAND "$INPUT_SOURCE" "$INPUT_DESTINATION" $INPUT_FLAGS
     aws s3 "$COMMAND" "$INPUT_SOURCE" "$INPUT_DESTINATION" $INPUT_FLAGS | tee output.file
-    echo -e "s3-result<<EOF\n$(cat output.file | awk '{print $2 $3}')\nEOF" >> $GITHUB_OUTPUT
+    echo -e "s3-result<<EOF\n$(cat output.file | awk '{print $1 $2}')\nEOF" >> $GITHUB_OUTPUT
   else
     echo aws s3 $COMMAND "$INPUT_SOURCE" $INPUT_FLAGS
     aws s3 "$COMMAND" "$INPUT_SOURCE" $INPUT_FLAGS | tee output.file
-    echo -e "s3-result<<EOF\n$(cat output.file | awk '{print $2 $3}')\nEOF" >> $GITHUB_OUTPUT
+    echo -e "s3-result<<EOF\n$(cat output.file | awk '{print $1 $2}')\nEOF" >> $GITHUB_OUTPUT
   fi
 }
 
